@@ -2,8 +2,11 @@ import tkinter as tk
 
 GRILLE_WIDTH, GRILLE_HEIGHT = 100, 100
 CANVAS_WIDTH, CANVAS_HEIGHT = 600, 600
+
+# Global
+
 fourmis_list = []
-direction = [0,1,0,0]
+direction = [0,0,0,1]
 coo_fourmis = [GRILLE_HEIGHT//2,GRILLE_WIDTH//2]
 idrectangle = []
 nb=0
@@ -21,11 +24,11 @@ def make_grille():
 
 
 def start():
+    """TO DO"""
     global fourmis_list,direction,coo_fourmis,idduafter,idrectangle,nb,vitesse
 
-    
-    
     if fourmis_list[coo_fourmis[0]][coo_fourmis[1]] == 1:
+        
         fourmis_list[coo_fourmis[0]][coo_fourmis[1]] = 0
 
         canvas.delete(idrectangle[coo_fourmis[0]][coo_fourmis[1]])
@@ -121,9 +124,9 @@ def stop():
 
     root.after_cancel(idduafter)
 
-def changement_vitesse(vitesses):
+def changement_vitesse(parametre):
     global vitesse
-    vitesse = vitesses
+    vitesse = parametre
 
 def next():
     start()
@@ -142,7 +145,7 @@ def back():
 # programme principal définition des widgets/événements
 
 root = tk.Tk()
-root.title("Mon dessin")
+root.title("Fourmis dee Longton")
 root.geometry("+0+0")
 
 
