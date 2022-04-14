@@ -31,7 +31,7 @@ vitesse = 1 # vitesse du after
 # définition des fonctions
 
 def make_grille():
-    """TO DO"""
+    """Créer une grille"""
     global fourmis_list
     for i in range(GRILLE_HEIGHT):
         fourmis_list.append([])
@@ -43,7 +43,7 @@ def make_grille():
 
 
 def start():
-    """TO DO"""
+    """Changement de direction et de couleur de la fourmi en fonction de la grille"""
     global fourmis_list,direction,coo_fourmis,idduafter,idrectangle,nb,vitesse
 
     if fourmis_list[coo_fourmis[0]][coo_fourmis[1]] == 1:
@@ -138,6 +138,7 @@ def start():
     idduafter = root.after(vitesse,start)
 
 def affiche():
+    """ Afficher la grille"""
     global fourmis_list
     for i in range(GRILLE_HEIGHT):
         for j in range(GRILLE_WIDTH):
@@ -155,23 +156,23 @@ def affiche():
 
 
 def stop():
-    """TO DO"""
+    """Mettre pause ou reprendre le programme"""
     global idduafter
 
     root.after_cancel(idduafter)
 
 def changement_vitesse(parametre):
-    """TO DO"""
+    """Changement de vitesse du calcul"""
     global vitesse
     vitesse = parametre
 
 def next():
-    """TO DO"""
+    """Avance d'une itération"""
     start()
     stop()
 
 def sauvegarde():
-    """TO DO"""
+    """Sauvegarde de la grille"""
     global fourmis_list,coo_fourmis
     list_coo_fourmis = [fourmis_list,coo_fourmis]
 
@@ -190,7 +191,7 @@ def sauvegarde():
     file.close()
 
 def charger():
-    """TO DO"""
+    """Charger la grille"""
     global fourmis_list,coo_fourmis
 
     filetypes = (
@@ -215,7 +216,7 @@ def charger():
     affiche()
 
 def back():
-    """TO DO"""
+    """Revenir en arrière d'une itération"""
     pass
                
 
