@@ -1,18 +1,37 @@
+#########################################
+# groupe MI TD3
+# Basile Lauriola
+# Camilia Boukebouche
+# Julien Hrelja
+# https://github.com/uvsq22107694/Projet2
+# https://github.com/uvsq-info/l1-python
+#########################################
+
+# import des librairies
+
 import tkinter as tk
+from tkinter import filedialog as fd
+import pickle
+import os
+
+# définition des constantes
 
 GRILLE_WIDTH, GRILLE_HEIGHT = 100, 100
 CANVAS_WIDTH, CANVAS_HEIGHT = 600, 600
 
-# Global
+# définition des variables globales
 
 fourmis_list = []
 direction = [0,0,0,1]
 coo_fourmis = [GRILLE_HEIGHT//2,GRILLE_WIDTH//2]
 idrectangle = []
-nb=0
-vitesse = 1
+nb = 0 # Nonbre itérations
+vitesse = 1 # vitesse du after
+
+# définition des fonctions
 
 def make_grille():
+    """TO DO"""
     global fourmis_list
     for i in range(GRILLE_HEIGHT):
         fourmis_list.append([])
@@ -118,50 +137,108 @@ def start():
     
     idduafter = root.after(vitesse,start)
 
+def affiche():
+    global fourmis_list
+    for i in range(GRILLE_HEIGHT):
+        for j in range(GRILLE_WIDTH):
+            canvas.delete(idrectangle[i][j])
+            if(fourmis_list[i][j] == 1):
+                canvas.create_rectangle(
+                                        (i*CANVAS_HEIGHT)//GRILLE_HEIGHT,
+                                        (j*CANVAS_WIDTH)//GRILLE_WIDTH,
+                                        ((i*CANVAS_HEIGHT)//GRILLE_HEIGHT)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
+                                        ((j*CANVAS_WIDTH)//GRILLE_WIDTH)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
+                                        width=0,
+                                        fill="black"
+                                        )
+
+
 
 def stop():
+    """TO DO"""
     global idduafter
 
     root.after_cancel(idduafter)
 
 def changement_vitesse(parametre):
+    """TO DO"""
     global vitesse
     vitesse = parametre
 
 def next():
+    """TO DO"""
     start()
     stop()
 
 def sauvegarde():
-    pass
+    """TO DO"""
+    global fourmis_list,coo_fourmis
+    list_coo_fourmis = [fourmis_list,coo_fourmis]
+
+    filetypes = [('All Files', '*.*'), 
+             ('Python Files', '*.py'),
+             ('Text Document', '*.txt')]
+
+    file = fd.asksaveasfile(
+            mode="wb",
+            filetypes = filetypes,
+            defaultextension = filetypes
+            )
+
+    pickle.dump(list_coo_fourmis, file)
+
+    file.close()
 
 def charger():
-    pass
+    """TO DO"""
+    global fourmis_list,coo_fourmis
+
+    filetypes = (
+        ('text files', '*.txt'),
+        ('All files', '*.*')
+    )
+
+    filename = fd.askopenfilename(
+                initialdir=os.getcwd()+"/Grilles",
+                filetypes=filetypes
+                )
+
+    with open(filename, "rb") as data:
+
+        list_coo_fourmis = pickle.load(data)
+    
+    fourmis_list = list_coo_fourmis[0]
+    coo_fourmis = list_coo_fourmis[1]
+
+    data.close()
+
+    affiche()
 
 def back():
+    """TO DO"""
     pass
                
 
 # programme principal définition des widgets/événements
 
 root = tk.Tk()
-root.title("Fourmis dee Longton")
+root.title("Fourmis de Longton")
 root.geometry("+0+0")
 
 
 # gestion des événements
 
-canvas = tk.Canvas(root, bg="white", width = CANVAS_WIDTH, height = CANVAS_HEIGHT, borderwidth=0,highlightthickness=0)
+canvas = tk.Canvas(root, bg="white", width = CANVAS_WIDTH, height = CANVAS_HEIGHT, borderwidth=0,highlightthickness=0) # création du canvas
 
-menu = tk.Menubutton(root,text="Option",relief='raised')
+menu = tk.Menubutton(root,text="Option",relief='raised') # création du widget menu boutton
 menu.grid(row=0, column=0) # positionnement du widget
 
-menu_bar = tk.Menu(menu,tearoff=0)
+menu_bar = tk.Menu(menu,tearoff=0) # création du widget menu associé au menu boutton
 menu["menu"] = menu_bar
 
-menu_bar.add_cascade(label="Sauvegarder",command=sauvegarde)
+menu_bar.add_cascade(label="Sauvegarder",command=sauvegarde) # création du widget cascade associé au menu
 
-menu_bar.add_cascade(label="Charger",command=charger)
+menu_bar.add_cascade(label="Charger",command=charger) # création du widget cascade associé au menu
 
 bouton_stop = tk.Button(root, text="Pause", font = ("helvetica", "10"), bg="pink",command=stop
                   ) # création du widget
@@ -179,17 +256,17 @@ bouton_back = tk.Button(root, text="back", font = ("helvetica", "10"), bg="pink"
                   ) # création du widget
 bouton_back.grid(row=0, column=4) # positionnement du widget
 
-nb_iteration = tk.Label(root,text=nb)
+nb_iteration = tk.Label(root,text=nb) # création du widget
 
-nb_iteration.grid(row=0, column=5)
+nb_iteration.grid(row=0, column=5) # positionnement du widget
 
 barre_vitesse = tk.Scale(root, orient='horizontal', from_=1, to=20,
                         resolution=1, tickinterval=1, length=350,
-                        label='Vitesse',command=changement_vitesse)
+                        label='Vitesse',command=changement_vitesse) # création du widget
 
-barre_vitesse.grid(row=0, column=6)
+barre_vitesse.grid(row=0, column=6) # positionnement du widget
 
-canvas.grid(row=1, column=0,columnspan=7)
+canvas.grid(row=1, column=0,columnspan=7) # positionnement du canvas
 
 # Fin de votre code
 
