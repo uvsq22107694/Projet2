@@ -27,6 +27,9 @@ coo_fourmis = [GRILLE_HEIGHT//2,GRILLE_WIDTH//2]
 idrectangle = []
 nb = 0 # Nonbre itérations
 vitesse = 1 # vitesse du after
+couleur = ["#000000", "#FF0000", "#00FF00", 
+           "#0000FF", "#FFFF00", "#FF00FF", 
+           "#00FFFF"]
 
 # définition des fonctions
 
@@ -45,7 +48,7 @@ def make_grille():
 def start():
     """Changement de direction et de couleur de la fourmi en fonction de la grille"""
     global fourmis_list,direction,coo_fourmis,idduafter,idrectangle,nb,vitesse
-
+    
     if fourmis_list[coo_fourmis[0]][coo_fourmis[1]] == 1:
         
         fourmis_list[coo_fourmis[0]][coo_fourmis[1]] = 0
@@ -139,19 +142,21 @@ def start():
 
 def affiche():
     """ Afficher la grille"""
-    global fourmis_list
+    global fourmis_list,idrectangle
+    canvas.delete("all")
     for i in range(GRILLE_HEIGHT):
         for j in range(GRILLE_WIDTH):
-            canvas.delete(idrectangle[i][j])
             if(fourmis_list[i][j] == 1):
-                canvas.create_rectangle(
-                                        (i*CANVAS_HEIGHT)//GRILLE_HEIGHT,
-                                        (j*CANVAS_WIDTH)//GRILLE_WIDTH,
-                                        ((i*CANVAS_HEIGHT)//GRILLE_HEIGHT)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
-                                        ((j*CANVAS_WIDTH)//GRILLE_WIDTH)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
-                                        width=0,
-                                        fill="black"
-                                        )
+                idrectangle[i][j] = canvas.create_rectangle(
+                                                            (i*CANVAS_HEIGHT)//GRILLE_HEIGHT,
+                                                            (j*CANVAS_WIDTH)//GRILLE_WIDTH,
+                                                            ((i*CANVAS_HEIGHT)//GRILLE_HEIGHT)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
+                                                            ((j*CANVAS_WIDTH)//GRILLE_WIDTH)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
+                                                            width=0,
+                                                            fill="black"
+                                                            )
+            else:
+                idrectangle[i][j] = "none"
 
 
 
@@ -173,8 +178,8 @@ def next():
 
 def sauvegarde():
     """Sauvegarde de la grille"""
-    global fourmis_list,coo_fourmis
-    list_coo_fourmis = [fourmis_list,coo_fourmis]
+    global fourmis_list,coo_fourmis,direction
+    list_coo_fourmis = [fourmis_list,coo_fourmis,direction]
 
     filetypes = [('All Files', '*.*'), 
              ('Python Files', '*.py'),
@@ -192,7 +197,7 @@ def sauvegarde():
 
 def charger():
     """Charger la grille"""
-    global fourmis_list,coo_fourmis
+    global fourmis_list,coo_fourmis,direction
 
     filetypes = (
         ('text files', '*.txt'),
@@ -210,10 +215,26 @@ def charger():
     
     fourmis_list = list_coo_fourmis[0]
     coo_fourmis = list_coo_fourmis[1]
+    direction = list_coo_fourmis[2]
 
     data.close()
 
     affiche()
+
+def reset():
+    global direction,coo_fourmis,fourmis_list,nb
+    canvas.delete("all")
+    nb = 0
+    direction = [0,0,0,1]
+    coo_fourmis = [GRILLE_HEIGHT//2,GRILLE_WIDTH//2]
+    nb_iteration.config(text=str(nb))
+    for i in range(GRILLE_HEIGHT):
+        for j in range(GRILLE_WIDTH):
+            fourmis_list[i][j] = 0
+            idrectangle[i][j] = "none"
+
+def changement_algo():
+    pass
 
 def back():
     """Revenir en arrière d'une itération"""
@@ -241,6 +262,8 @@ menu_bar.add_cascade(label="Sauvegarder",command=sauvegarde) # création du widg
 
 menu_bar.add_cascade(label="Charger",command=charger) # création du widget cascade associé au menu
 
+menu_bar.add_cascade(label="Changer Algo",command=changement_algo) # création du widget cascade associé au menu
+
 bouton_stop = tk.Button(root, text="Pause", font = ("helvetica", "10"), bg="pink",command=stop
                   ) # création du widget
 bouton_stop.grid(row=0, column=1) # positionnement du widget
@@ -257,17 +280,21 @@ bouton_back = tk.Button(root, text="back", font = ("helvetica", "10"), bg="pink"
                   ) # création du widget
 bouton_back.grid(row=0, column=4) # positionnement du widget
 
+bouton_reset = tk.Button(root, text="reset", font = ("helvetica", "10"), bg="pink",command=reset
+                  ) # création du widget
+bouton_reset.grid(row=0, column=5) # positionnement du widget
+
 nb_iteration = tk.Label(root,text=nb) # création du widget
 
-nb_iteration.grid(row=0, column=5) # positionnement du widget
+nb_iteration.grid(row=0, column=6) # positionnement du widget
 
 barre_vitesse = tk.Scale(root, orient='horizontal', from_=1, to=20,
                         resolution=1, tickinterval=1, length=350,
                         label='Vitesse',command=changement_vitesse) # création du widget
 
-barre_vitesse.grid(row=0, column=6) # positionnement du widget
+barre_vitesse.grid(row=0, column=7) # positionnement du widget
 
-canvas.grid(row=1, column=0,columnspan=7) # positionnement du canvas
+canvas.grid(row=1, column=0,columnspan=8) # positionnement du canvas
 
 # Fin de votre code
 
