@@ -27,9 +27,13 @@ coo_fourmis = [GRILLE_HEIGHT//2,GRILLE_WIDTH//2]
 idrectangle = []
 nb = 0 # Nonbre itérations
 vitesse = 1 # vitesse du after
-couleur = ["#000000", "#FF0000", "#00FF00", 
+couleur = ["#FFFFFF","#000000", "#FF0000", "#00FF00", 
            "#0000FF", "#FFFF00", "#FF00FF", 
-           "#00FFFF"]
+           "#00FFFF", "#646464", "#3C8F3A",
+           "#F0F0F0", "#64285A", "#EE5AAA",
+           "#D50053"]
+
+forme_algo = "GD"           
 
 # définition des fonctions
 
@@ -49,90 +53,47 @@ def start():
     """Changement de direction et de couleur de la fourmi en fonction de la grille"""
     global fourmis_list,direction,coo_fourmis,idduafter,idrectangle,nb,vitesse
     
-    if fourmis_list[coo_fourmis[0]][coo_fourmis[1]] == 1:
-        
+    if fourmis_list[coo_fourmis[0]][coo_fourmis[1]] == len(forme_algo)-1:
         fourmis_list[coo_fourmis[0]][coo_fourmis[1]] = 0
-
         canvas.delete(idrectangle[coo_fourmis[0]][coo_fourmis[1]])
-
-        if direction[0] == 1:
-            direction[3] = 1
-            direction[0] = 0
-        elif direction[1] == 1:
-            direction[0] = 1
-            direction[1] = 0
-        elif direction[2] == 1:
-            direction[1] = 1
-            direction[2] = 0
-        elif direction[3] == 1:
-            direction[2] = 1
-            direction[3] = 0
-
-        if coo_fourmis[0] >= GRILLE_HEIGHT-1 and direction[1] == 1:
-            coo_fourmis[0] = 0
-        else:
-            coo_fourmis[0] += direction[1]
-
-        if coo_fourmis[1] >= GRILLE_WIDTH-1 and direction[2] == 1:
-            coo_fourmis[1] = 0
-        else:
-            coo_fourmis[1] += direction[2]
-
-        if coo_fourmis[0] <= 0 and direction[3] == 1:
-            coo_fourmis[0] = GRILLE_HEIGHT-1
-        else:
-            coo_fourmis[0] -= direction[3]
-
-        if coo_fourmis[1] <= 0 and direction[0] == 1:
-            coo_fourmis[1] = GRILLE_WIDTH-1
-        else:
-            coo_fourmis[1] -= direction[0]
-
+        idrectangle[coo_fourmis[0]][coo_fourmis[1]] = "none"
 
     else:
-        fourmis_list[coo_fourmis[0]][coo_fourmis[1]] = 1
-
+        fourmis_list[coo_fourmis[0]][coo_fourmis[1]] += 1
+        canvas.delete(idrectangle[coo_fourmis[0]][coo_fourmis[1]])
         idrectangle[coo_fourmis[0]][coo_fourmis[1]] = canvas.create_rectangle(
                                                     (coo_fourmis[0]*CANVAS_HEIGHT)//GRILLE_HEIGHT,
                                                     (coo_fourmis[1]*CANVAS_WIDTH)//GRILLE_WIDTH,
                                                     ((coo_fourmis[0]*CANVAS_HEIGHT)//GRILLE_HEIGHT)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
                                                     ((coo_fourmis[1]*CANVAS_WIDTH)//GRILLE_WIDTH)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
                                                     width=0,
-                                                    fill="black"
+                                                    fill=couleur[fourmis_list[coo_fourmis[0]][coo_fourmis[1]]]
                                                     )
+    
+    if(forme_algo[fourmis_list[coo_fourmis[0]][coo_fourmis[1]]] == "G" or forme_algo[fourmis_list[coo_fourmis[0]][coo_fourmis[1]]] == "g"):
+        direction_linéaire(True)
+    else:
+        direction_linéaire(False)
 
-        if direction[0] == 1:
-            direction[1] = 1
-            direction[0] = 0
-        elif direction[1] == 1:
-            direction[2] = 1
-            direction[1] = 0
-        elif direction[2] == 1:
-            direction[3] = 1
-            direction[2] = 0
-        elif direction[3] == 1:
-            direction[0] = 1
-            direction[3] = 0
-
-        if coo_fourmis[0] >= GRILLE_HEIGHT-1 and direction[1] == 1:
+    if coo_fourmis[0] >= GRILLE_HEIGHT-1 and direction[1] == 1:
             coo_fourmis[0] = 0
-        else:
-            coo_fourmis[0] += direction[1]
+    else:
+        coo_fourmis[0] += direction[1]
 
-        if coo_fourmis[1] >= GRILLE_WIDTH-1 and direction[2] == 1:
-            coo_fourmis[1] = 0
-        else:
-            coo_fourmis[1] += direction[2]
+    if coo_fourmis[1] >= GRILLE_WIDTH-1 and direction[2] == 1:
+        coo_fourmis[1] = 0
+    else:
+        coo_fourmis[1] += direction[2]
 
-        if coo_fourmis[0] <= 0 and direction[3] == 1:
-            coo_fourmis[0] = GRILLE_HEIGHT-1
-        else:
-            coo_fourmis[0] -= direction[3]
+    if coo_fourmis[0] <= 0 and direction[3] == 1:
+        coo_fourmis[0] = GRILLE_HEIGHT-1
+    else:
+        coo_fourmis[0] -= direction[3]
 
-        if coo_fourmis[1] <= 0 and direction[0] == 1:
-            coo_fourmis[1] = GRILLE_WIDTH-1
-        else:
-            coo_fourmis[1] -= direction[0]
+    if coo_fourmis[1] <= 0 and direction[0] == 1:
+        coo_fourmis[1] = GRILLE_WIDTH-1
+    else:
+        coo_fourmis[1] -= direction[0]
         
     nb+=1
 
@@ -158,6 +119,34 @@ def affiche():
             else:
                 idrectangle[i][j] = "none"
 
+def direction_linéaire(direc):
+    global direction
+    if(direc):
+        if direction[0] == 1:
+            direction[3] = 1
+            direction[0] = 0
+        elif direction[1] == 1:
+            direction[0] = 1
+            direction[1] = 0
+        elif direction[2] == 1:
+            direction[1] = 1
+            direction[2] = 0
+        elif direction[3] == 1:
+            direction[2] = 1
+            direction[3] = 0
+    else:
+        if direction[0] == 1:
+            direction[1] = 1
+            direction[0] = 0
+        elif direction[1] == 1:
+            direction[2] = 1
+            direction[1] = 0
+        elif direction[2] == 1:
+            direction[3] = 1
+            direction[2] = 0
+        elif direction[3] == 1:
+            direction[0] = 1
+            direction[3] = 0
 
 
 def stop():
@@ -173,8 +162,13 @@ def changement_vitesse(parametre):
 
 def next():
     """Avance d'une itération"""
+    global fourmis_list,direction,coo_fourmis,idduafter,idrectangle,nb,vitesse
+
     start()
     stop()
+
+    print("direction: ",direction)
+    print("case: ",fourmis_list[coo_fourmis[0]][coo_fourmis[1]])
 
 def sauvegarde():
     """Sauvegarde de la grille"""
@@ -234,11 +228,73 @@ def reset():
             idrectangle[i][j] = "none"
 
 def changement_algo():
-    pass
+    global nouvel_fenetre
+    nouvel_fenetre = tk.Toplevel()
+    texte = tk.Label(nouvel_fenetre,text="Entrez une suite de gauche droite exp \"GDDG\"") # création du widget
+    texte.grid(row=0, column=0) # positionnement du widget
+    entrer = tk.Entry(nouvel_fenetre,width=50)
+    entrer.grid(row=0,column=1,sticky='ew')
+    boutton_entrer = tk.Button(nouvel_fenetre,text="Valider",command=lambda: valid_algo(entrer.get()))
+    boutton_entrer.grid(row=1)
+
+def valid_algo(text):
+    global nouvel_fenetre,forme_algo
+    forme_algo = text
+    nouvel_fenetre.destroy()
 
 def back():
     """Revenir en arrière d'une itération"""
-    pass
+    global fourmis_list,direction,coo_fourmis,idduafter,idrectangle,nb,vitesse
+
+    if coo_fourmis[0] >= GRILLE_HEIGHT-1 and direction[1] == 1:
+            coo_fourmis[0] = 0
+    else:
+        coo_fourmis[0] -= direction[1]
+
+    if coo_fourmis[1] >= GRILLE_WIDTH-1 and direction[2] == 1:
+        coo_fourmis[1] = 0
+    else:
+        coo_fourmis[1] -= direction[2]
+
+    if coo_fourmis[0] <= 0 and direction[3] == 1:
+        coo_fourmis[0] = GRILLE_HEIGHT-1
+    else:
+        coo_fourmis[0] += direction[3]
+
+    if coo_fourmis[1] <= 0 and direction[0] == 1:
+        coo_fourmis[1] = GRILLE_WIDTH-1
+    else:
+        coo_fourmis[1] += direction[0]
+
+    if(forme_algo[fourmis_list[coo_fourmis[0]][coo_fourmis[1]]] == "G" or forme_algo[fourmis_list[coo_fourmis[0]][coo_fourmis[1]]] == "g"):
+        direction_linéaire(False)
+    else:
+        direction_linéaire(True)
+
+    if fourmis_list[coo_fourmis[0]][coo_fourmis[1]] == 0:
+        canvas.delete(idrectangle[coo_fourmis[0]][coo_fourmis[1]])
+        idrectangle[coo_fourmis[0]][coo_fourmis[1]] = "none"
+        fourmis_list[coo_fourmis[0]][coo_fourmis[1]] = len(forme_algo)-1
+        
+    else:
+        canvas.delete(idrectangle[coo_fourmis[0]][coo_fourmis[1]])
+        idrectangle[coo_fourmis[0]][coo_fourmis[1]] = canvas.create_rectangle(
+                                                    (coo_fourmis[0]*CANVAS_HEIGHT)//GRILLE_HEIGHT,
+                                                    (coo_fourmis[1]*CANVAS_WIDTH)//GRILLE_WIDTH,
+                                                    ((coo_fourmis[0]*CANVAS_HEIGHT)//GRILLE_HEIGHT)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
+                                                    ((coo_fourmis[1]*CANVAS_WIDTH)//GRILLE_WIDTH)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
+                                                    width=0,
+                                                    fill=couleur[fourmis_list[coo_fourmis[0]][coo_fourmis[1]]]
+                                                    )
+        fourmis_list[coo_fourmis[0]][coo_fourmis[1]] -= 1
+
+    print("direction: ",direction)
+    print("case: ",fourmis_list[coo_fourmis[0]][coo_fourmis[1]])
+        
+    nb-=1
+
+    nb_iteration.config(text=str(nb))
+    
                
 
 # programme principal définition des widgets/événements
