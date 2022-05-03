@@ -280,9 +280,9 @@ def back():
             coo_fourmis[i][1] += direction[i][0]
 
         if(forme_algo[fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]]] == "G" or forme_algo[fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]]] == "g"):
-            direction_linéaire(False)
+            direction_linéaire(False,i)
         else:
-            direction_linéaire(True)
+            direction_linéaire(True,i)
 
 
         if fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]] == 0:
