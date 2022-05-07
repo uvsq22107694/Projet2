@@ -33,6 +33,7 @@ Math Informatique TD 3
     - Charger une instance dejà sauvegarder
     - Changement de l'algorithme (de base Gauche,Droite)
     - Pouvoir placer plusieurs fourmis (via leur coordonées)
+- Affichage du nombre d'itérations
 
 ## Utilisation détaillée
 
