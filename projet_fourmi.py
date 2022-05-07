@@ -224,8 +224,8 @@ def affiche():
 
 def sauvegarde():
     """Sauvegarde de la grille"""
-    global fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo
-    list_coo_fourmis = [fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo] # sauvegarde de toutes les variables globales importantes
+    global fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo,nombre_fourmis
+    list_coo_fourmis = [fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo,nombre_fourmis] # sauvegarde de toutes les variables globales importantes
 
     filetypes = [('All Files', '*.*'), 
              ('Text Document', '*.txt')]
@@ -242,7 +242,7 @@ def sauvegarde():
 
 def charger():
     """Charger la grille"""
-    global fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo
+    global fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo,nombre_fourmis
 
     filetypes = (
         ('text files', '*.txt'),
@@ -263,6 +263,7 @@ def charger():
     direction = list_coo_fourmis[2]
     nombre_iteration = list_coo_fourmis[3]
     forme_algo = list_coo_fourmis[4]
+    nombre_fourmis = list_coo_fourmis[5]
     nombre_iteration_iteration.config(text=str(nombre_iteration))
 
     data.close()
@@ -270,7 +271,7 @@ def charger():
     affiche()
 
 def reset():
-    """Réinitialiser la grille"""
+    """Réinitialiser la grille, on remet le nombre de fourmis à 1"""
     global direction,coo_fourmis,fourmis_list,nombre_iteration,nombre_fourmis
     canvas.delete("all")
     nombre_iteration = 0
