@@ -108,7 +108,7 @@ def start():
     idduafter = root.after(vitesse,start)
 
 def affiche():
-    """ Afficher la grille"""
+    """Afficher la grille"""
     global fourmis_list,idrectangle
     canvas.delete("all")
     for i in range(GRILLE_HEIGHT):
@@ -342,7 +342,7 @@ def placer_fourmis():
     boutton_entrer.grid(row=1)
     
 def valid_fourmis(text):
-    """Valide la position de la nouvelle fourmi"""
+    """Valide la position des fourmis"""
     global nouvel_fenetre2,nombre_fourmis,coo_fourmis,direction
     coordonee = list(text.split(" "))
     coo_fourmis.append([])
