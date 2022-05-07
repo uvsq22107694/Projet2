@@ -108,7 +108,7 @@ def start():
     idduafter = root.after(vitesse,start)
 
 def affiche():
-    """ Afficher la grille"""
+    """Afficher la grille"""
     global fourmis_list,idrectangle
     canvas.delete("all")
     for i in range(GRILLE_HEIGHT):
@@ -130,6 +130,11 @@ def affiche():
                 
 
 def direction_linéaire(direc,fourmis):
+    """Changement de la direction de la fourmi"""
+    """
+    G = True
+    D = False
+    """
     global direction
     
     if(direc):
@@ -227,6 +232,7 @@ def charger():
     affiche()
 
 def reset():
+    """Réinitialiser la grille"""
     global direction,coo_fourmis,fourmis_list,nb,nombre_fourmis
     canvas.delete("all")
     nb = 0
@@ -243,6 +249,7 @@ def reset():
     nombre_fourmis = 1
 
 def changement_algo():
+    """Changement de l'algorithme"""
     global nouvel_fenetre
     nouvel_fenetre = tk.Toplevel()
     texte = tk.Label(nouvel_fenetre,text="Entrez une suite de gauche droite exp \"GDDG\" de base celui ci est \"GD\"") # création du widget
@@ -253,6 +260,7 @@ def changement_algo():
     boutton_entrer.grid(row=1)
 
 def valid_algo(text):
+    """Valide l'algorithme"""
     global nouvel_fenetre,forme_algo
     forme_algo = text
     nouvel_fenetre.destroy()
@@ -323,6 +331,7 @@ def back():
     nb_iteration.config(text=str(nb))
 
 def placer_fourmis():
+    """Placement des fourmis"""
     global nouvel_fenetre2
     nouvel_fenetre2 = tk.Toplevel()
     texte = tk.Label(nouvel_fenetre2,text="Entrez les coordonnées de la nouvelle fourmis Exemple: 50 50") # création du widget
@@ -333,6 +342,7 @@ def placer_fourmis():
     boutton_entrer.grid(row=1)
     
 def valid_fourmis(text):
+    """Valide la position des fourmis"""
     global nouvel_fenetre2,nombre_fourmis,coo_fourmis,direction
     coordonee = list(text.split(" "))
     coo_fourmis.append([])
