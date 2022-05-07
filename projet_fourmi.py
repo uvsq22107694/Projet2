@@ -356,7 +356,7 @@ def valid_fourmis(text):
 # programme principal définition des widgets/événements
 
 root = tk.Tk()
-root.title("Fourmis de Longton")
+root.title("Fourmis de Langton")
 root.geometry("+0+0")
 
 
