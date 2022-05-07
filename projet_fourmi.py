@@ -30,7 +30,7 @@ direction = []
 direction.append([])
 direction[0] = [0,0,0,1]
 idrectangle = []
-nb = 0 # Nonbre itérations
+nb = 0 # Nombre itérations
 vitesse = 1 # vitesse du after
 couleur = ["#FFFFFF","#000000", "#FF0000", "#00FF00", 
            "#0000FF", "#FFFF00", "#FF00FF", 
@@ -113,17 +113,21 @@ def affiche():
     canvas.delete("all")
     for i in range(GRILLE_HEIGHT):
         for j in range(GRILLE_WIDTH):
-            if(fourmis_list[i][j] == 1):
+            if(fourmis_list[i][j] == 0):
+
+                idrectangle[i][j] = "none"
+                
+            else:
+
                 idrectangle[i][j] = canvas.create_rectangle(
                                                             (i*CANVAS_HEIGHT)//GRILLE_HEIGHT,
                                                             (j*CANVAS_WIDTH)//GRILLE_WIDTH,
                                                             ((i*CANVAS_HEIGHT)//GRILLE_HEIGHT)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
                                                             ((j*CANVAS_WIDTH)//GRILLE_WIDTH)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
                                                             width=0,
-                                                            fill="black"
+                                                            fill=couleur[fourmis_list[i][j]]
                                                             )
-            else:
-                idrectangle[i][j] = "none"
+                
 
 def direction_linéaire(direc,fourmis):
     global direction
@@ -176,8 +180,8 @@ def next():
 
 def sauvegarde():
     """Sauvegarde de la grille"""
-    global fourmis_list,coo_fourmis,direction,nb
-    list_coo_fourmis = [fourmis_list,coo_fourmis,direction,nb]
+    global fourmis_list,coo_fourmis,direction,nb,forme_algo
+    list_coo_fourmis = [fourmis_list,coo_fourmis,direction,nb,forme_algo]
 
     filetypes = [('All Files', '*.*'), 
              ('Python Files', '*.py'),
@@ -195,7 +199,7 @@ def sauvegarde():
 
 def charger():
     """Charger la grille"""
-    global fourmis_list,coo_fourmis,direction,nb
+    global fourmis_list,coo_fourmis,direction,nb,forme_algo
 
     filetypes = (
         ('text files', '*.txt'),
@@ -215,6 +219,7 @@ def charger():
     coo_fourmis = list_coo_fourmis[1]
     direction = list_coo_fourmis[2]
     nb = list_coo_fourmis[3]
+    forme_algo = list_coo_fourmis[4]
     nb_iteration.config(text=str(nb))
 
     data.close()
@@ -225,7 +230,7 @@ def reset():
     global direction,coo_fourmis,fourmis_list,nb,nombre_fourmis
     canvas.delete("all")
     nb = 0
-    for i in range(1,nombre_fourmis):
+    for i in range(1,nombre_fourmis-1):
         del coo_fourmis[i]
         del direction[i]
     coo_fourmis[0] = [GRILLE_HEIGHT//2,GRILLE_WIDTH//2]
