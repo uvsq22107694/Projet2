@@ -32,7 +32,7 @@ Math Informatique TD 3
     - Sauvegarder une instance en cours
     - Charger une instance dejà sauvegarder
     - Changement de l'algorithme (de base Gauche,Droite)
-    - Pouvoir placer plusieurs fourmis (via leur coordonées)
+    - Pouvoir placer plusieurs fourmis (via leur coordonnées)
 - Affichage du nombre d'itérations
 
 ## Utilisation détaillée
