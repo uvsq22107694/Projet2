@@ -147,28 +147,6 @@ def start():
     
     id_after = root.after(vitesse,start)
 
-def affiche():
-    """Afficher la grille"""
-    global fourmis_list,id_rectangle
-    canvas.delete("all")
-    for i in range(GRILLE_HEIGHT):
-        for j in range(GRILLE_WIDTH):
-            if(fourmis_list[i][j] == 0):
-
-                id_rectangle[i][j] = "none"
-                
-            else:
-
-                id_rectangle[i][j] = canvas.create_rectangle(
-                                                            (i*CANVAS_HEIGHT)//GRILLE_HEIGHT,
-                                                            (j*CANVAS_WIDTH)//GRILLE_WIDTH,
-                                                            ((i*CANVAS_HEIGHT)//GRILLE_HEIGHT)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
-                                                            ((j*CANVAS_WIDTH)//GRILLE_WIDTH)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
-                                                            width=0,
-                                                            fill=couleur[fourmis_list[i][j]]
-                                                            )
-                
-
 def direction_linéaire(direc,fourmis):
     """Changement de la direction de la fourmi"""
     """
@@ -223,13 +201,33 @@ def next():
     start()
     stop()
 
+def affiche():
+    """Afficher la grille quand on charge une nouvelle grille"""
+    global fourmis_list,id_rectangle
+    canvas.delete("all")
+    for i in range(GRILLE_HEIGHT):
+        for j in range(GRILLE_WIDTH):
+            if(fourmis_list[i][j] == 0):
+
+                id_rectangle[i][j] = "none"
+                
+            else:
+
+                id_rectangle[i][j] = canvas.create_rectangle(
+                                                            (i*CANVAS_HEIGHT)//GRILLE_HEIGHT,
+                                                            (j*CANVAS_WIDTH)//GRILLE_WIDTH,
+                                                            ((i*CANVAS_HEIGHT)//GRILLE_HEIGHT)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
+                                                            ((j*CANVAS_WIDTH)//GRILLE_WIDTH)+(CANVAS_HEIGHT//GRILLE_HEIGHT),
+                                                            width=0,
+                                                            fill=couleur[fourmis_list[i][j]]
+                                                            )
+
 def sauvegarde():
     """Sauvegarde de la grille"""
     global fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo
-    list_coo_fourmis = [fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo]
+    list_coo_fourmis = [fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo] # sauvegarde de toutes les variables globales importantes
 
     filetypes = [('All Files', '*.*'), 
-             ('Python Files', '*.py'),
              ('Text Document', '*.txt')]
 
     file = fd.asksaveasfile(
@@ -238,7 +236,7 @@ def sauvegarde():
             defaultextension = filetypes
             )
 
-    pickle.dump(list_coo_fourmis, file)
+    pickle.dump(list_coo_fourmis, file) # On utilise la librairie pickle pour sauvegarder une liste
 
     file.close()
 
@@ -258,7 +256,7 @@ def charger():
 
     with open(filename, "rb") as data:
 
-        list_coo_fourmis = pickle.load(data)
+        list_coo_fourmis = pickle.load(data) # On utilise la librairie pickle pour charger la liste
     
     fourmis_list = list_coo_fourmis[0]
     coo_fourmis = list_coo_fourmis[1]
@@ -276,11 +274,11 @@ def reset():
     global direction,coo_fourmis,fourmis_list,nombre_iteration,nombre_fourmis
     canvas.delete("all")
     nombre_iteration = 0
-    for i in range(1,nombre_fourmis-1):
+    for i in range(1,nombre_fourmis-1): # on suprimme toutes les nouvelles fourmis
         del coo_fourmis[i]
         del direction[i]
-    coo_fourmis[0] = [GRILLE_HEIGHT//2,GRILLE_WIDTH//2]
-    direction[0] = [0,0,0,1]
+    coo_fourmis[0] = [GRILLE_HEIGHT//2,GRILLE_WIDTH//2] # Initialisation de la fourmis de base
+    direction[0] = [0,0,0,1] # Initialisation de la direction de la fourmis
     nombre_iteration_iteration.config(text=str(nombre_iteration))
     for i in range(GRILLE_HEIGHT):
         for j in range(GRILLE_WIDTH):
@@ -310,7 +308,7 @@ def back():
     global fourmis_list,direction,coo_fourmis,id_after,id_rectangle,nombre_iteration,vitesse
 
 
-    for i in range(nombre_fourmis):
+    for i in range(nombre_fourmis): # On fait reculer la fourmis d'une étape en fonction de la direction
 
         if coo_fourmis[i][0] >= GRILLE_HEIGHT-1 and direction[i][1] == 1:
                 coo_fourmis[i][0] = 0
@@ -332,13 +330,13 @@ def back():
         else:
             coo_fourmis[i][1] += direction[i][0]
 
-        if(forme_algo[fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]]] == "G" or forme_algo[fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]]] == "g"):
+        if(forme_algo[fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]]] == "G" or forme_algo[fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]]] == "g"): # On inverse la gauche et la droite
             direction_linéaire(False,i)
         else:
             direction_linéaire(True,i)
 
 
-        if fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]] == 0:
+        if fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]] == 0: # Si c'est blanc on retourne sur la couleur "max"
             fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]] = len(forme_algo)-1
             canvas.delete(id_rectangle[coo_fourmis[i][0]][coo_fourmis[i][1]])
             id_rectangle[coo_fourmis[i][0]][coo_fourmis[i][1]] = canvas.create_rectangle(
@@ -350,13 +348,13 @@ def back():
                                                         fill=couleur[fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]]]
                                                         )     
             
-        elif fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]] == 1:
+        elif fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]] == 1: # si c'est noir on retourne au blanc
             fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]] -= 1
             canvas.delete(id_rectangle[coo_fourmis[i][0]][coo_fourmis[i][1]])
             id_rectangle[coo_fourmis[i][0]][coo_fourmis[i][1]] = "none"
 
         else:
-            fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]] -= 1
+            fourmis_list[coo_fourmis[i][0]][coo_fourmis[i][1]] -= 1 # on retourne a la couleur d'avant
             canvas.delete(id_rectangle[coo_fourmis[i][0]][coo_fourmis[i][1]])
             id_rectangle[coo_fourmis[i][0]][coo_fourmis[i][1]] = canvas.create_rectangle(
                                                         (coo_fourmis[i][0]*CANVAS_HEIGHT)//GRILLE_HEIGHT,
