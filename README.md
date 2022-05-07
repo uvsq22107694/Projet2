@@ -6,7 +6,7 @@ deux dimensions et d’une fourmi. Dans ce projet, il faudra implémenter une
 interface graphique à l’aide de la bibliothèque Tkinter permettant d’afficher le
 comportement de cet automate.
 
-
+![Animation fourmis](https://user-images.githubusercontent.com/91540224/167257503-e6f7d059-4ecf-4c82-86d8-f2555524c07f.gif)
 
 
 ## Informations
