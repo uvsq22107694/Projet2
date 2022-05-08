@@ -225,7 +225,7 @@ def affiche():
 def sauvegarde():
     """Sauvegarde de la grille"""
     global fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo,nombre_fourmis
-    list_coo_fourmis = [fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo,nombre_fourmis] # sauvegarde de toutes les variables globales importantes
+    list_sauvegarde_fourmis = [fourmis_list,coo_fourmis,direction,nombre_iteration,forme_algo,nombre_fourmis] # sauvegarde de toutes les variables globales importantes
 
     filetypes = [('All Files', '*.*'), 
              ('Text Document', '*.txt')]
@@ -236,7 +236,7 @@ def sauvegarde():
             defaultextension = filetypes
             )
 
-    pickle.dump(list_coo_fourmis, file) # On utilise la librairie pickle pour sauvegarder une liste
+    pickle.dump(list_sauvegarde_fourmis, file) # On utilise la librairie pickle pour sauvegarder une liste
 
     file.close()
 
@@ -256,14 +256,14 @@ def charger():
 
     with open(filename, "rb") as data:
 
-        list_coo_fourmis = pickle.load(data) # On utilise la librairie pickle pour charger la liste
+        list_sauvegarde_fourmis = pickle.load(data) # On utilise la librairie pickle pour charger la liste
     
-    fourmis_list = list_coo_fourmis[0]
-    coo_fourmis = list_coo_fourmis[1]
-    direction = list_coo_fourmis[2]
-    nombre_iteration = list_coo_fourmis[3]
-    forme_algo = list_coo_fourmis[4]
-    nombre_fourmis = list_coo_fourmis[5]
+    fourmis_list = list_sauvegarde_fourmis[0]
+    coo_fourmis = list_sauvegarde_fourmis[1]
+    direction = list_sauvegarde_fourmis[2]
+    nombre_iteration = list_sauvegarde_fourmis[3]
+    forme_algo = list_sauvegarde_fourmis[4]
+    nombre_fourmis = list_sauvegarde_fourmis[5]
     nombre_iteration_iteration.config(text=str(nombre_iteration))
 
     data.close()
