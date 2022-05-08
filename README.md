@@ -2,7 +2,7 @@
 # Projet Fourmis de Langton
 
 La Fourmi de Langton est un automate cellulaire composé d’une grille à
-deux dimensions et d’une fourmi. Dans ce projet, il faudra implémenter une
+deux dimensions et d’une fourmi. Dans ce projet, nous avons implémenter une
 interface graphique à l’aide de la bibliothèque Tkinter permettant d’afficher le
 comportement de cet automate.
 
