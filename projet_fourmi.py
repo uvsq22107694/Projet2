@@ -311,22 +311,22 @@ def back():
 
     for i in range(nombre_fourmis): # On fait reculer la fourmis d'une étape en fonction de la direction
 
-        if coo_fourmis[i][0] >= GRILLE_HEIGHT-1 and direction[i][1] == 1:
+        if coo_fourmis[i][0] >= GRILLE_HEIGHT-1 and direction[i][3] == 1:
                 coo_fourmis[i][0] = 0
         else:
             coo_fourmis[i][0] -= direction[i][1]
 
-        if coo_fourmis[i][1] >= GRILLE_WIDTH-1 and direction[i][2] == 1:
+        if coo_fourmis[i][1] >= GRILLE_WIDTH-1 and direction[i][0] == 1:
             coo_fourmis[i][1] = 0
         else:
             coo_fourmis[i][1] -= direction[i][2]
 
-        if coo_fourmis[i][0] <= 0 and direction[i][3] == 1:
+        if coo_fourmis[i][0] <= 0 and direction[i][1] == 1:
             coo_fourmis[i][0] = GRILLE_HEIGHT-1
         else:
             coo_fourmis[i][0] += direction[i][3]
 
-        if coo_fourmis[i][1] <= 0 and direction[i][0] == 1:
+        if coo_fourmis[i][1] <= 0 and direction[i][2] == 1:
             coo_fourmis[i][1] = GRILLE_WIDTH-1
         else:
             coo_fourmis[i][1] += direction[i][0]
